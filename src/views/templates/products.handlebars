@@ -1,0 +1,14 @@
+<div id="products-only">
+    <h1>{{product.title}}</h1>
+    <p>{{product.description}}</p>
+    <p>Precio: {{product.price}}</p>
+    <p>Código: {{product.code}}</p>
+    <p>Stock: {{product.stock}}</p>
+    <p>Categoría: {{product.category}}</p>
+    {{#if product.thumbnail}}
+    <img src="{{product.thumbnail}}" alt={{product.title}}>
+    {{/if}}
+    <button id='addToCart' data-cart-id='{{cartId}}' data-product-id='{{product._id}}'>Agregar al carrito</button>
+</div>
+<a href="/home">Volver a la lista de productos</a>
+<script src="/js/products.js"></script>

@@ -1,0 +1,35 @@
+<div id="products-container">
+    <h1>Lista de productos</h1>
+    <ul id="products-list">
+        {{#each result.docs}}
+        <li>
+            <a id="product-link" href='/products/{{_id}}'>
+                <h3>{{title}}</h3>
+                <p>{{description}}</p>
+                <p>Precio: {{price}}</p>
+                <p>Código: {{code}}</p>
+                <p>Stock: {{stock}}</p>
+                <p>Categoría: {{category}}</p>
+                {{#if thumbnail}}
+                <img src="{{thumbnail}}" alt={{title}}>
+                {{/if}}
+            </a>
+        </li>
+        {{/each}}
+    </ul>
+    <a id="cart-link" href="#">Carrito</a>
+    <a href="/realTimeProducts">Productos en tiempo real</a>
+</div>
+<div id="pagination">
+    {{#if result.hasPrevPage}}
+    <a href="{{result.prevLink}}">Anterior</a>
+    {{/if}}
+
+    Página {{result.page}} de {{result.totalPages}}
+
+    {{#if result.hasNextPage}}
+    <a href="{{result.nextLink}}">Siguiente</a>
+    {{/if}}
+</div>
+
+<script src="/js/home.js"></script>
