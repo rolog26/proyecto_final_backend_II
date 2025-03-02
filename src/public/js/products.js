@@ -7,7 +7,7 @@ document.getElementById('addToCart').addEventListener('click', function () {
     })
     .then(res => res.json())
     .then(data => {
-        console.log('Producto agregado al carrito:', data.payload);
+        console.log('Producto agregado al carrito:', data);
     })
     .catch(error => {
         console.error('Error al agregar el producto al carrito:', error);

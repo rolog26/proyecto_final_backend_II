@@ -1,8 +1,16 @@
-import jwt from 'jsonwebtoken';
+import "dotenv/config";
+import jwt from "jsonwebtoken";
 
-let secretKey = 'secretKey';
+const secretKey = process.env.SECRET_SESSION;
 
 export const generateToken = (user) => {
-    const token = jwt.sign({ user }, secretKey, { expiresIn: '24h' });
-    return token;
-}
+  const payload = {
+    user: {
+      id: user._id,
+      first_name: user.first_name,
+      rol: user.rol,
+    },
+  };
+  const token = jwt.sign(payload, secretKey, { expiresIn: "24h" });
+  return token;
+};

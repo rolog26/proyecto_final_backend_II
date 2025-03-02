@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('api/carts', { method: 'POST' })
             .then(res => res.json())
             .then(data => {
-                sessionStorage.setItem('cartId', data.payload._id);
-                updateCartLink(data.payload._id);
+                sessionStorage.setItem('cartId', data._id);
+                updateCartLink(data._id);
             })
             .catch(error => {
                 console.error('Error al obtener el carrito:', error);

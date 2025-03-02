@@ -35,7 +35,7 @@ export const createProduct = async (req, res) => {
     try {
         const product = req.body;
         const respuesta = await productModel.create(product);
-        res.status(201).status('Producto creado');
+        res.status(201).status('Producto creado: ', { respuesta });
     } catch (error) {
         res.status(500).send(error);
     }

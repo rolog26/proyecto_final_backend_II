@@ -43,6 +43,11 @@
     border-radius: 20px;
 }
 
+#products-only h1 {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
 #product-link {
     font-size: 20px;
     color: black;
@@ -51,7 +56,7 @@
 
 #pagination {
     font-size: 20px;
-    margin: 10px;
+    margin: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,6 +110,7 @@ a {
     color: white;
     text-decoration: none;
     font-size: 25px;
+    margin: 20px;
 }
 
 header li {
@@ -167,4 +173,5 @@ footer {
     display: flex;
     justify-content: center;
     background-color: #1e312e;
+    color: rgb(145, 145, 145);
 }

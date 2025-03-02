@@ -5,7 +5,7 @@
     <p>Código: {{product.code}}</p>
     <p>Stock: {{product.stock}}</p>
     <p>Categoría: {{product.category}}</p>
-    {{#if product.thumbnail}}
+    {{#if product.thumbnail.length}}
     <img src="{{product.thumbnail}}" alt={{product.title}}>
     {{/if}}
     <button id='addToCart' data-cart-id='{{cartId}}' data-product-id='{{product._id}}'>Agregar al carrito</button>
