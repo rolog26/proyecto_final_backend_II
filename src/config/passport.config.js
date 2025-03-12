@@ -16,7 +16,6 @@ const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env;
 const cookieExtractor = (req) => {
   let token = null;
   if (req && req.cookies) {
-    // Prueba con ambos nombres de cookie
     token = req.cookies["sessionCookie"];
     console.log("Cookie recibida:", req.cookies);
     console.log("Token extraído:", token);
@@ -131,12 +130,19 @@ const initializePassport = () => {
       },
       async (jwt_payload, done) => {
         console.log("Token JWT recibido:", jwt_payload);
-        if (!jwt_payload || !jwt_payload.user) {
-          console.log("No se encontró la propiedad 'user' en el payload.");
-          return done(null, false);
+        try{ 
+          if (!jwt_payload || !jwt_payload.user) {
+            console.log("No se encontró la propiedad 'user' en el payload.");
+            return done(null, false, {
+              message: "Usuario no encontrado en el token",
+            });
+          }
+          console.log("Usuario extraído del token:", jwt_payload.user);
+          return done(null, jwt_payload.user);
+        } catch (error) {
+          console.error("Error en la estrategia JWT:", error);
+          return done(error);
         }
-        console.log("Usuario extraído del token:", jwt_payload.user);
-        return done(null, jwt_payload.user);
       }
     )
   );

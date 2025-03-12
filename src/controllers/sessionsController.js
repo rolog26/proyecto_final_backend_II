@@ -1,23 +1,39 @@
 import { generateToken } from "../utils/jwt.js";
+import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
   try {
     if (!req.user) {
-      return res.status(401).send("Usuario o contraseña incorrecta");
+      return res
+        .status(401)
+        .json({ status: "error", message: "Credenciales inválidas" });
     }
 
-    const token = generateToken(req.user);
-    req.session.user = {
-      email: req.user.email,
+    const user = {
+      id: req.user._id,
       first_name: req.user.first_name,
+      rol: req.user.rol || req.user.role || "Usuario",
     };
-    res.status(200).cookie("sessionCookie", token, {
+
+    const token = jwt.sign({ user }, process.env.SECRET_JWT, {
+      expiresIn: "24h",
+    });
+
+    res.cookie("sessionCookie", token, {
+      maxAge: 86400000,
       httpOnly: true,
-      secure: false,
-      maxAge: 3600000,
-    }).send({ message: "Usuario logueado correctamente" });
+    });
+
+    return res.status(200).json({
+      status: "success",
+      message: "Login exitoso",
+      user: user,
+    });
   } catch (error) {
-    res.status(500).send({ message: "Error al loguear usuario" });
+    console.error("Error en login:", error);
+    return res
+      .status(500)
+      .json({ status: "error", message: "Error interno del servidor" });
   }
 };
 
@@ -46,19 +62,35 @@ export const viewLogin = (req, res) => {
   });
 };
 
-export const githubLogin = (req, res) => {
+export const githubLogin = async (req, res) => {
   try {
-    req.session.user = {
-      email: req.user.email,
+    if (!req.user) {
+      return res.status(401).json({
+        status: "error",
+        message: "Error en la autenticación con GitHub",
+      });
+    }
+
+    const user = {
+      id: req.user._id,
       first_name: req.user.first_name,
+      rol: req.user.rol || req.user.role || "Usuario",
     };
-    const token = generateToken(req.user);
-    res.satus(200).cookie("sessionCookie", token, {
+
+    const token = jwt.sign({ user }, process.env.SECRET_JWT, {
+      expiresIn: "24h",
+    });
+
+    res.cookie("sessionCookie", token, {
+      maxAge: 86400000,
       httpOnly: true,
-      secure: false,
-      maxAge: 3600000,
-    }).redirect('/home');
+    });
+
+    return res.redirect("/products");
   } catch (error) {
-    res.status(500).send("Error al loguear usuario", error);
+    console.error("Error en githubLogin:", error);
+    return res
+      .status(500)
+      .json({ status: "error", message: "Error interno del servidor" });
   }
 };
